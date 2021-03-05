@@ -9,6 +9,9 @@ import 'package:flutter/src/gestures/tap.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PACoreShowDialog {
+
+
+
   // @title: title Dialog
   // @content: widget show content inside dialog
   // @policyAcceptTime: show time text
@@ -18,30 +21,32 @@ class PACoreShowDialog {
           {@required String title,
           @required Widget content,
           String policyAcceptTime,
-          @required Function funcOk}) async =>
-      showDialog(
-          context: context,
-          barrierDismissible: true,
-          builder: (BuildContext context) => Container(
-                margin: EdgeInsets.symmetric(
-                    vertical: MediaQuery.of(context).size.shortestSide * 0.15),
-                child: AlertDialog(
-                  title: Text(title),
-                  content: content,
-                  actions: [
-                    TextButton(
-                      onPressed: () async {
-                        funcOk();
-                      },
-                      child: FittedBox(
-                        child: Text(
-                          policyAcceptTime != "" ?  'YOU ACCEPTED ON ' + policyAcceptTime : "OK",
-                        ),
-                      ),
-                    ),
-                  ],
+          @required Function funcOk}) async {
+    return showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) => Container(
+          margin: EdgeInsets.symmetric(
+              vertical: MediaQuery.of(context).size.shortestSide * 0.15),
+          child: AlertDialog(
+            title: Text(title),
+            content: content,
+            actions: [
+              TextButton(
+                onPressed: () async {
+                  funcOk();
+                },
+                child: FittedBox(
+                  child: Text(
+                    policyAcceptTime != "" ?  'YOU ACCEPTED ON ' + policyAcceptTime : "OK",
+                  ),
                 ),
-              ));
+              ),
+            ],
+          ),
+        ));
+  }
+
 
   // title: title for dialog
   // content widget show content
@@ -145,6 +150,11 @@ class PACoreShowDialog {
             ));
   }
 
+  // title: title for dialog
+  // content widget show content
+  // trueButton: widget right button
+  // falseButton: widget left button
+
   static customAlertDialog(BuildContext context,
       {@required String title,
       @required Widget content,
@@ -165,6 +175,15 @@ class PACoreShowDialog {
             ));
   }
 
+
+  // title: title for dialog
+  // content widget show content
+ //  funcOk: action when click ok
+ // funcCancel action when click cancel
+ // funcOkText: text for funcOk
+ //  funcCancelText: text for funcCancel
+ //  bool canDismiss: barrierDismissible dialog
+
   static mainAlertDialog(BuildContext context,
       {@required String title,
       @required Widget content,
@@ -175,7 +194,7 @@ class PACoreShowDialog {
       bool canDismiss = true}) async {
     return showDialog(
         context: context,
-        barrierDismissible: true,
+        barrierDismissible: canDismiss,
         builder: (BuildContext context) => Container(
               child: AlertDialog(
                 title: Text(title),
@@ -195,6 +214,11 @@ class PACoreShowDialog {
               ),
             ));
   }
+
+
+  // title: title for dialog
+  // contentText: content
+  //  funcPurchase: call function purchase
 
   //ask purchase dialog
   static askPremiumDialog(BuildContext context,
@@ -224,6 +248,14 @@ class PACoreShowDialog {
           );
         });
   }
+
+
+   // String title: title for dialog
+   // bool isPremium: check premium
+   // Function showAds: show ads when premium is false
+   // String currentValue: text when open
+   // bool isNumber: input type number or not
+   // bool multiLine: input field multiline
 
   //* input name dialog
   static inputNameDialog(BuildContext context,
@@ -283,6 +315,14 @@ class PACoreShowDialog {
         });
   }
 
+
+  // title: title for dialog
+  //  String currentValue: text when open
+  // int textMaxLength: max character input
+  // String currentValue: text when open
+  // bool isNumber: input type number or not
+  // bool multiLine: input field multiline
+
   static inputDialog(BuildContext context,
       {String title,
       String currentValue,
@@ -340,6 +380,8 @@ class PACoreShowDialog {
           );
         });
   }
+
+  // policy text
 
   static Future<String> pickYearDialog(BuildContext context, {String policyText}) {
     return showDialog<String>(
