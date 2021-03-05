@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pa_core_flutter/pa_core_flutter.dart';
 
 void main() {
@@ -44,27 +45,57 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+            TextButton(
+                onPressed: () {
+                  PACoreShowDialog.policyDialog(context,
+                      title: "Policy",
+                      content: Text("hi"),
+                      policyAcceptTime: "2021", funcOk: () {
+                    print("ok");
+                  });
+                },
+                child: Text("Policy")),
+            TextButton(
+                onPressed: () {
+                  PACoreShowDialog.exitAppDialog(context,
+                      title: "exit dialog",
+                      content: "hi",
+                      isPremium: false,
+                      adsWidget: Container(
+                          color: Colors.blue, height: 200, width: 200),
+                      funcOkText: "EXIT",
+                      funcCancelText: "CANCEL");
+                },
+                child: Text("Exit dialog")),
+            TextButton(
+              onPressed: () => PACoreShowDialog.customAlertDialog(context,
+                  title: "custom alert",
+                  content: Text("alert"),
+                  trueButton: TextButton(onPressed: null, child: Text("OK")),
+                  falseButton: TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: Text("Cancel"))),
+              child: Text("custom alert dialog"),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+            TextButton(
+              onPressed: () => PACoreShowDialog.mainAlertDialog(context,
+                  title: "main alert",
+                  content: Text("alert"),
+                  funcOk: () => Navigator.pop(context),
+                  funcCancel: () => print("exit")),
+              child: Text("main alert dialog"),
+            ),
+            TextButton(
+              onPressed: () => PACoreShowDialog.askPremiumDialog(context, funcPurchase: () => print("purchase")),
+              child: Text("ask premium"),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          PACoreShowDialog.policyDialog(context, title: "Policy", content: Text("hi"), funcOk: (){
-            print("ok");
-          });
-        },
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
+
     );
   }
 }
