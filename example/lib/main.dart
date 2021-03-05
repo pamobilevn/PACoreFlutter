@@ -105,6 +105,17 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               child: Text("Input name"),
             ),
+            TextButton(
+              onPressed: () => PACoreShowDialog.inputDialog(
+                context,
+                title: "input",
+                textMaxLength: 40,
+                isNumber: false,
+                multiLine: true,
+                currentValue: '',
+              ),
+              child: Text('Input'),
+            ),
           ],
         ),
       ),

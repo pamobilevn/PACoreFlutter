@@ -280,5 +280,64 @@ class PACoreShowDialog {
           );
         });
   }
+
+  static inputDialog(BuildContext context,
+      {String title,
+        String currentValue,
+        bool isNumber,
+        int textMaxLength,
+        bool multiLine}) async {
+    String value = currentValue;
+    final textController = TextEditingController();
+    if (currentValue != null) {
+      textController.text = currentValue;
+    }
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(title),
+            content: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Container(
+                width: MediaQuery.of(context).size.shortestSide,
+                child: TextField(
+                  maxLength: textMaxLength != null ? textMaxLength : null,
+                  autofocus: true,
+                  controller: textController,
+                  maxLines: multiLine ? 3 : 1,
+                  keyboardType: isNumber
+                      ? TextInputType.number
+                      : multiLine != null
+                      ? TextInputType.multiline
+                      : TextInputType.text,
+                  onChanged: (onChangeValue) {
+                    value = onChangeValue;
+                  },
+                ),
+              ),
+            ),
+            actions: [
+              FlatButton(
+                child: Text(
+                  'Cancel'.toUpperCase(),
+                  style: TextStyle(color: Colors.grey),
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              FlatButton(
+                child: Text('Ok'.toUpperCase()),
+                onPressed: () {
+                  Navigator.of(context).pop(value);
+                },
+              ),
+            ],
+          );
+        });
+  }
+  
   
 }
