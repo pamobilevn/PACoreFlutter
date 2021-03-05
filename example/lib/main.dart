@@ -116,6 +116,10 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               child: Text('Input'),
             ),
+            TextButton(
+              onPressed: () => PACoreShowDialog.pickYearDialog(context,policyText: "aaaa"),
+              child: Text('pick year'),
+            ),
           ],
         ),
       ),
