@@ -223,4 +223,62 @@ class PACoreShowDialog {
         });
   }
 
+
+  //* input name dialog
+  static inputNameDialog(BuildContext context,
+      {@required String title,
+        @required bool isPremium,
+        @required Function showAds,
+        @required  String currentValue,
+        @required  bool isNumber,
+        @required  bool multiLine}) async {
+    String value = currentValue;
+    final textController = TextEditingController();
+    if (currentValue != null) {
+      textController.text = currentValue;
+    }
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(title),
+            content: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Container(
+                width: MediaQuery.of(context).size.shortestSide,
+                child: TextField(
+                  autofocus: true,
+                  controller: textController,
+                  keyboardType: isNumber
+                      ? TextInputType.number
+                      : multiLine != null
+                      ? TextInputType.multiline
+                      : TextInputType.text,
+                  onChanged: (onChangeValue) {
+                    value = onChangeValue;
+                  },
+                ),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text("CANCEL"),),
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  if(!isPremium) {
+                    showAds;
+                   }
+                  int time = DateTime.now().millisecondsSinceEpoch;
+                  Navigator.of(context).pop(time.toString() + "_" + value);
+                  print(time.toString() + "_" + value);
+                },
+              ),
+            ],
+          );
+        });
+  }
+  
 }

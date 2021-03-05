@@ -89,13 +89,25 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text("main alert dialog"),
             ),
             TextButton(
-              onPressed: () => PACoreShowDialog.askPremiumDialog(context, funcPurchase: () => print("purchase")),
+              onPressed: () => PACoreShowDialog.askPremiumDialog(context,
+                  funcPurchase: () => print("purchase")),
               child: Text("ask premium"),
+            ),
+            TextButton(
+              onPressed: () => PACoreShowDialog.inputNameDialog(
+                context,
+                title: 'File name',
+                isPremium: false,
+                showAds: () => print('show ads'),
+                currentValue: '',
+                isNumber: false,
+                multiLine: false,
+              ),
+              child: Text("Input name"),
             ),
           ],
         ),
       ),
-
     );
   }
 }
