@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             TextButton(
                 onPressed: () {
-                  PACoreShowDialog.policyDialog(context,
+                  PACoreShowDialog. policyDialog(context,
                       title: "Policy",
                       content: Text("hi"),
                       policyAcceptTime: "2021", funcOk: () {
