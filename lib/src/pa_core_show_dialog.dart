@@ -3,9 +3,9 @@ library pa_core_flutter;
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/gestures/tap.dart';
 import 'package:get_storage/get_storage.dart';
 
 class PACoreShowDialog {
@@ -393,7 +393,7 @@ class PACoreShowDialog {
             onWillPop: () {},
             child: AlertDialog(
               title: Text('Your Year of Birth'),
-              content: pickYearWidget(policyText),
+              content: PickYearWidget(policyText),
               actions: <Widget>[
                 Platform.isAndroid
                     ? FlatButton(
@@ -412,23 +412,23 @@ class PACoreShowDialog {
                    String privacyPolicyAcceptTime =
                         DateTime.now().toString().substring(0, 16).toString();
 
-                  print(_pickYearWidgetState.year);
-                   if (DateTime.now().year - _pickYearWidgetState.year <= 7) {
+                  print(_PickYearWidgetState.year);
+                   if (DateTime.now().year - _PickYearWidgetState.year <= 7) {
                      maxAdContent = 'MAX_AD_CONTENT_RATING_G';
                    }
-                   if (DateTime.now().year - _pickYearWidgetState.year <= 12) {
+                   if (DateTime.now().year - _PickYearWidgetState.year <= 12) {
                      maxAdContent = 'MAX_AD_CONTENT_RATING_PG';
                    }
-                   if (DateTime.now().year - _pickYearWidgetState.year <= 16) {
+                   if (DateTime.now().year - _PickYearWidgetState.year <= 16) {
                      maxAdContent = 'MAX_AD_CONTENT_RATING_T';
                    }
-                   if (DateTime.now().year - _pickYearWidgetState.year > 16) {
+                   if (DateTime.now().year - _PickYearWidgetState.year > 16) {
                      maxAdContent = 'MAX_AD_CONTENT_RATING_MA';
                    }
                    final box = GetStorage();
                    if (!box.hasData("USER'S_AGE")) {
                      box.write("USER'S_AGE",
-                         DateTime.now().year - _pickYearWidgetState.year);
+                         DateTime.now().year - _PickYearWidgetState.year);
                      box.write("MAX_AD_CONTENT", maxAdContent);
                      box.write("IS_VERIFY_AGE", true);
                      box.write(
@@ -443,7 +443,7 @@ class PACoreShowDialog {
                      box.remove("IS_VERIFY_AGE");
                      box.remove("PRIVACY_POLICY");
                      box.write("USER'S_AGE",
-                         DateTime.now().year - _pickYearWidgetState.year);
+                         DateTime.now().year - _PickYearWidgetState.year);
                      box.write("MAX_AD_CONTENT", maxAdContent);
                      box.write("IS_VERIFY_AGE", true);
                      box.write(
@@ -464,17 +464,17 @@ class PACoreShowDialog {
   }
 }
 
-class pickYearWidget extends StatefulWidget {
-  pickYearWidget(this.policyText);
+class PickYearWidget extends StatefulWidget {
+  PickYearWidget(this.policyText);
   final String policyText;
 
   @override
-  _pickYearWidgetState createState() {
-    return _pickYearWidgetState();
+  _PickYearWidgetState createState() {
+    return _PickYearWidgetState();
   }
 }
 
-class _pickYearWidgetState extends State<pickYearWidget> {
+class _PickYearWidgetState extends State<PickYearWidget> {
   static int year = DateTime.now().year - 3;
 
   @override
