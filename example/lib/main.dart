@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pa_core_flutter/pa_core_flutter.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(MyApp());
@@ -51,31 +52,27 @@ class _MyHomePageState extends State<MyHomePage> {
             TextButton(
                 onPressed: () {
                   PACoreShowDialog.policyDialog(context,
-                      title: "Policy",
-                      content: Text("hi"),
-                      policyAcceptTime: "2021", funcOk: () {
-                    print("ok");
+                      title: "Policy", policyAcceptTime: "", funcOk: () {
+                    Navigator.pop(context);
                   });
                 },
                 child: Text("Policy")),
             TextButton(
                 onPressed: () {
-                  PACoreShowDialog.exitAppDialog(context,
-                      title: "exit dialog",
-                      content: "hi",
-                      isPremium: false,
-                      adsWidget: Container(
-                          color: Colors.blue, height: 200, width: 200),
-                      funcOkText: "EXIT",
-                      funcCancelText: "CANCEL");
+                  PACoreShowDialog.exitAppDialog(
+                    context,
+                    isPremium: false,
+                    adsWidget:
+                        Container(color: Colors.blue, height: 200, width: 200),
+                  );
                 },
                 child: Text("Exit dialog")),
             TextButton(
               onPressed: () => PACoreShowDialog.customAlertDialog(context,
                   title: "custom alert",
                   content: Text("alert"),
-                  trueButton: TextButton(onPressed: null, child: Text("OK")),
-                  falseButton: TextButton(
+                  rightButton: TextButton(onPressed: null, child: Text("OK")),
+                  leftButton: TextButton(
                       onPressed: () => Navigator.pop(context),
                       child: Text("Cancel"))),
               child: Text("custom alert dialog"),

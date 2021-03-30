@@ -7,6 +7,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:pa_core_flutter/src/string.dart';
 
 class PACoreShowDialog {
   // @title: title Dialog
@@ -14,9 +15,11 @@ class PACoreShowDialog {
   // @policyAcceptTime: show time text
   // @funcOk action when click OK
 
+  /// Mở dialog policy: hiện AlertDialog. <br>
+  /// Khi policyAcceptTime = "" thì hiện textButton OK, ngược lại hiện policyAcceptTime
+
   static policyDialog(BuildContext context,
       {@required String title,
-      @required Widget content,
       String policyAcceptTime,
       @required Function funcOk}) async {
     return showDialog(
@@ -27,7 +30,9 @@ class PACoreShowDialog {
                   vertical: MediaQuery.of(context).size.shortestSide * 0.15),
               child: AlertDialog(
                 title: Text(title),
-                content: content,
+                content: SingleChildScrollView(
+                  child: Text(PRIVACY_POLICY),
+                ),
                 actions: [
                   TextButton(
                     onPressed: () async {
@@ -51,7 +56,105 @@ class PACoreShowDialog {
   // isPremium: check to show ads or not
   // funcOkText, funcCancelText: text for buttons
 
-  static exitAppDialog(BuildContext context,
+  /// isPremium: check premium để hiện ads, adsWidget: ad,
+  /// Bấm OK để thoát app, Cancel để trở lại
+
+  static exitAppDialog(
+    BuildContext context, {
+    @required bool isPremium,
+    @required Widget adsWidget,
+  }) async {
+    return showDialog(
+        context: context,
+        builder: (BuildContext ctx) => Dialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+              ),
+              child: Container(
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      height: 70,
+                      child: Center(
+                        child: Text(
+                          'Exit',
+                          maxLines: 2,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    Container(
+                        height: 50,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                height: 35,
+                                width: 80,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  borderRadius: BorderRadius.circular(2),
+                                ),
+                                child: Center(
+                                    child: Text("Cancel",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold))),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                SystemNavigator.pop();
+                              },
+                              child: Container(
+                                height: 35,
+                                width: 80,
+                                decoration: BoxDecoration(
+                                  color: Colors.lightBlue,
+                                  borderRadius: BorderRadius.circular(2),
+                                ),
+                                child: Center(
+                                    child: Text("Quit",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold))),
+                              ),
+                            )
+                          ],
+                        )),
+                    const SizedBox(height: 10),
+                    isPremium
+                        ? SizedBox()
+                        : Container(
+                            height: 275,
+                            width: double.infinity,
+                            color: Color.fromRGBO(247, 247, 247, 1),
+                            child: adsWidget),
+                  ],
+                ),
+              ),
+            ));
+  }
+
+  /// Như exitAppDialog nhưng custom dc các tham số
+  static exitAppDialogCustom(BuildContext context,
       {@required String title,
       @required String content,
       @required bool isPremium,
@@ -153,6 +256,8 @@ class PACoreShowDialog {
   // trueButton: widget right button
   // falseButton: widget left button
 
+  /// title: title, widget content: content cho dialog.
+
   static customAlertDialog(BuildContext context,
       {@required String title,
       @required Widget content,
@@ -180,6 +285,7 @@ class PACoreShowDialog {
   // funcOkText: text for funcOk
   //  funcCancelText: text for funcCancel
   //  bool canDismiss: barrierDismissible dialog
+  /// Hiển thị Alert Dialog
 
   static mainAlertDialog(BuildContext context,
       {@required String title,
@@ -216,7 +322,8 @@ class PACoreShowDialog {
   // contentText: content
   //  funcPurchase: call function purchase
 
-  //ask purchase dialog
+  /// ask purchase dialog <br>
+  /// Gọi hàm purchase từ IAP
   static askPremiumDialog(BuildContext context,
       {String title, String contentText, @required Function funcPurchase}) {
     return showDialog(
@@ -252,7 +359,7 @@ class PACoreShowDialog {
   // bool isNumber: input type number or not
   // bool multiLine: input field multiline
 
-  //* input name dialog
+  ///
   static inputNameDialog(BuildContext context,
       {@required String title,
       @required bool isPremium,
@@ -525,7 +632,6 @@ class _PickYearWidgetState extends State<PickYearWidget> {
                         ..onTap = () {
                           PACoreShowDialog.policyDialog(context,
                               title: "Policy",
-                              content: Text("hi"),
                               policyAcceptTime: "", funcOk: () {
                             Navigator.pop(context);
                             print("ok");
