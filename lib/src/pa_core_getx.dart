@@ -42,7 +42,7 @@ class PACoreGetX {
   }
 
 
-  checkUpdate(int versionRemote, int versionInApp) async {
+  checkUpdate(int versionRemote, int versionInApp, String androidAppId, String iosAppId) async {
 
     if(versionInApp < versionRemote){
       Get.dialog(AlertDialog(
@@ -53,8 +53,8 @@ class PACoreGetX {
           TextButton(onPressed: () => Get.back(), child: Text('Cancel')),
           TextButton(onPressed: (){
             LaunchReview.launch(
-                androidAppId: 'co.pamobile.pokemon.cardmaker',
-                iOSAppId: '1226345628',
+                androidAppId: androidAppId,
+                iOSAppId: iosAppId,
                 writeReview: false);
             Get.back();
           },child: Text('Update'),)
