@@ -19,9 +19,9 @@ class PACoreShowDialog {
   /// Khi policyAcceptTime = "" thì hiện textButton OK, ngược lại hiện policyAcceptTime
 
   static policyDialog(BuildContext context,
-      {@required String title,
-      String policyAcceptTime,
-      @required Function funcOk}) async {
+      {required String title,
+      String? policyAcceptTime,
+      required Function funcOk}) async {
     return showDialog(
         context: context,
         barrierDismissible: true,
@@ -41,7 +41,7 @@ class PACoreShowDialog {
                     child: FittedBox(
                       child: Text(
                         policyAcceptTime != ""
-                            ? 'YOU ACCEPTED ON ' + policyAcceptTime
+                            ? 'YOU ACCEPTED ON ' + policyAcceptTime!
                             : "OK",
                       ),
                     ),
@@ -61,8 +61,8 @@ class PACoreShowDialog {
 
   static exitAppDialog(
     BuildContext context, {
-    @required bool isPremium,
-    @required Widget adsWidget,
+    required bool isPremium,
+    required Widget adsWidget,
   }) async {
     return showDialog(
         context: context,
@@ -155,12 +155,12 @@ class PACoreShowDialog {
 
   /// Như exitAppDialog nhưng custom dc các tham số
   static exitAppDialogCustom(BuildContext context,
-      {@required String title,
-      @required String content,
-      @required bool isPremium,
-      @required Widget adsWidget,
-      @required String funcOkText,
-      @required String funcCancelText,
+      {required String title,
+      required String content,
+      required bool isPremium,
+      required Widget adsWidget,
+      required String funcOkText,
+      required String funcCancelText,
       bool canDismiss = true}) async {
     return showDialog(
         context: context,
@@ -259,10 +259,10 @@ class PACoreShowDialog {
   /// title: title, widget content: content cho dialog.
 
   static customAlertDialog(BuildContext context,
-      {@required String title,
-      @required Widget content,
-      @required TextButton rightButton,
-      TextButton leftButton}) {
+      {required String title,
+      required Widget content,
+      required TextButton rightButton,
+      TextButton? leftButton}) {
     return showDialog(
         context: context,
         barrierDismissible: true,
@@ -271,7 +271,7 @@ class PACoreShowDialog {
                 title: Text(title),
                 content: content,
                 actions: <Widget>[
-                  leftButton != null ? leftButton : null,
+                  leftButton != null ? leftButton: SizedBox(),
                   rightButton,
                 ],
               ),
@@ -288,10 +288,10 @@ class PACoreShowDialog {
   /// Hiển thị Alert Dialog
 
   static mainAlertDialog(BuildContext context,
-      {@required String title,
-      @required Widget content,
-      @required Function funcOk,
-      Function funcCancel,
+      {required String title,
+      required Widget content,
+      required Function funcOk,
+      Function? funcCancel,
       String funcOkText = 'OK',
       String funcCancelText = 'CANCEL',
       bool canDismiss = true}) async {
@@ -304,13 +304,15 @@ class PACoreShowDialog {
                 content: content,
                 actions: <Widget>[
                   TextButton(
-                    onPressed: funcCancel != null
-                        ? funcCancel
-                        : () => Navigator.pop(context),
+                    onPressed: () => {
+                      funcCancel != null
+                          ? funcCancel
+                          : () => Navigator.pop(context)
+                    },
                     child: Text(funcCancelText.toUpperCase()),
                   ),
                   TextButton(
-                    onPressed: funcOk,
+                    onPressed: () => funcOk,
                     child: Text(funcOkText.toUpperCase()),
                   ),
                 ],
@@ -325,7 +327,7 @@ class PACoreShowDialog {
   /// ask purchase dialog <br>
   /// Gọi hàm purchase từ IAP
   static askPremiumDialog(BuildContext context,
-      {String title, String contentText, @required Function funcPurchase}) {
+      {String? title, String? contentText, required Function funcPurchase}) {
     return showDialog(
         context: context,
         barrierDismissible: true,
@@ -344,7 +346,7 @@ class PACoreShowDialog {
                 ),
               ),
               TextButton(
-                onPressed: funcPurchase,
+                onPressed: () => funcPurchase,
                 child: Text('UPGRADE'),
               ),
             ],
@@ -361,17 +363,15 @@ class PACoreShowDialog {
 
   ///
   static inputNameDialog(BuildContext context,
-      {@required String title,
-      @required bool isPremium,
-      @required Function showAds,
-      @required String currentValue,
-      @required bool isNumber,
-      @required bool multiLine}) async {
+      {required String title,
+      required bool isPremium,
+      required Function showAds,
+      required String currentValue,
+      required bool isNumber,
+      required bool multiLine}) async {
     String value = currentValue;
     final textController = TextEditingController();
-    if (currentValue != null) {
-      textController.text = currentValue;
-    }
+    textController.text = currentValue;
     return showDialog(
         context: context,
         barrierDismissible: false,
@@ -387,7 +387,7 @@ class PACoreShowDialog {
                   controller: textController,
                   keyboardType: isNumber
                       ? TextInputType.number
-                      : multiLine != null
+                      : multiLine
                           ? TextInputType.multiline
                           : TextInputType.text,
                   onChanged: (onChangeValue) {
@@ -425,12 +425,12 @@ class PACoreShowDialog {
   // bool multiLine: input field multiline
 
   static inputDialog(BuildContext context,
-      {String title,
-      String currentValue,
-      bool isNumber,
-      int textMaxLength,
-      bool multiLine}) async {
-    String value = currentValue;
+      {String? title,
+      String? currentValue,
+      bool? isNumber,
+      int? textMaxLength,
+      required bool? multiLine}) async {
+    String? value = currentValue;
     final textController = TextEditingController();
     if (currentValue != null) {
       textController.text = currentValue;
@@ -440,7 +440,7 @@ class PACoreShowDialog {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(title),
+            title: Text(title!),
             content: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Container(
@@ -449,10 +449,10 @@ class PACoreShowDialog {
                   maxLength: textMaxLength != null ? textMaxLength : null,
                   autofocus: true,
                   controller: textController,
-                  maxLines: multiLine ? 3 : 1,
-                  keyboardType: isNumber
+                  maxLines: multiLine! ? 3 : 1,
+                  keyboardType: isNumber!
                       ? TextInputType.number
-                      : multiLine != null
+                      : multiLine
                           ? TextInputType.multiline
                           : TextInputType.text,
                   onChanged: (onChangeValue) {
@@ -484,35 +484,35 @@ class PACoreShowDialog {
 
   // policy text
 
-  static Future<String> pickYearDialog(BuildContext context,
-      {String policyText}) {
+  static Future<String?> pickYearDialog(BuildContext context,
+      {String? policyText}) {
     return showDialog<String>(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
           String maxAdContent = "";
           return WillPopScope(
-            onWillPop: () {},
+            onWillPop: null,
             child: AlertDialog(
               title: Text('Your Year of Birth'),
-              content: PickYearWidget(policyText),
+              content: PickYearWidget(policyText!),
               actions: <Widget>[
                 Platform.isAndroid
                     ? TextButton(
-                        child: Text(
-                          'Quit'.toUpperCase(),
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                        onPressed: () {
-                          SystemNavigator.pop();
-                        },
-                      )
-                    : null,
+                  child: Text(
+                    'Quit'.toUpperCase(),
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  onPressed: () {
+                    SystemNavigator.pop();
+                  },
+                )
+                    : SizedBox(),
                 TextButton(
                   child: Text('ACCEPT'),
                   onPressed: () async {
                     String privacyPolicyAcceptTime =
-                        DateTime.now().toString().substring(0, 16).toString();
+                    DateTime.now().toString().substring(0, 16).toString();
 
                     print(_PickYearWidgetState.year);
                     if (DateTime.now().year - _PickYearWidgetState.year <= 7) {

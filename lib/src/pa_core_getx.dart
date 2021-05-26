@@ -6,13 +6,13 @@ import 'package:launch_review/launch_review.dart';
 class PACoreGetX {
   final box = GetStorage();
 
-  int openTimes;
+  int? openTimes;
   countOpen(String packageName) async  {
     if (!box.hasData('OPEN_TIMES')) {
       box.write('OPEN_TIMES', 1);
     } else {
       openTimes = box.read('OPEN_TIMES');
-      if (openTimes % 3 == 0)  {
+      if (openTimes! % 3 == 0)  {
         Get.dialog(AlertDialog(
           title: Text('Thank you'),
           content: Text(
@@ -37,7 +37,7 @@ class PACoreGetX {
         ));
       }
       print(box.read('OPEN_TIMES').toString());
-      box.write('OPEN_TIMES', openTimes+1);
+      box.write('OPEN_TIMES', openTimes!+1);
     }
   }
 
