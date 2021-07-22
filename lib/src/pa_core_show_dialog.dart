@@ -21,7 +21,7 @@ class PACoreShowDialog {
 
   static policyDialog(BuildContext context,
       {@required String title,
-      String policyAcceptTime,
+      String policyAcceptTime, String policyText,
       @required Function funcOk}) async {
     return showDialog(
         context: context,
@@ -32,7 +32,7 @@ class PACoreShowDialog {
               child: AlertDialog(
                 title: Text(title),
                 content: SingleChildScrollView(
-                  child: Text(PRIVACY_POLICY),
+                  child: policyText == '' ? Text(PRIVACY_POLICY) : Text(policyText),
                 ),
                 actions: [
                   TextButton(
@@ -633,6 +633,7 @@ class _PickYearWidgetState extends State<PickYearWidget> {
                         ..onTap = () {
                           PACoreShowDialog.policyDialog(context,
                               title: "Policy",
+                              policyText: PRIVACY_POLICY,
                               policyAcceptTime: "", funcOk: () {
                             Navigator.pop(context);
                             print("ok");
