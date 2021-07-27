@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pa_core_flutter/src/string.dart';
 
@@ -20,7 +21,7 @@ class PACoreShowDialog {
 
   static policyDialog(BuildContext context,
       {required String title,
-      String? policyAcceptTime,
+      String? policyAcceptTime, String? policyText,
       required Function funcOk}) async {
     return showDialog(
         context: context,
@@ -31,7 +32,7 @@ class PACoreShowDialog {
               child: AlertDialog(
                 title: Text(title),
                 content: SingleChildScrollView(
-                  child: Text(PRIVACY_POLICY),
+                  child: policyText == '' ? Text(PRIVACY_POLICY) : Text(policyText!),
                 ),
                 actions: [
                   TextButton(
@@ -484,87 +485,84 @@ class PACoreShowDialog {
 
   // policy text
 
-  static Future<String?> pickYearDialog(BuildContext context,
+  static pickYearDialog(BuildContext context,
       {String? policyText}) {
-    return showDialog<String>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          String maxAdContent = "";
-          return WillPopScope(
-            onWillPop: null,
-            child: AlertDialog(
-              title: Text('Your Year of Birth'),
-              content: PickYearWidget(policyText!),
-              actions: <Widget>[
-                Platform.isAndroid
-                    ? TextButton(
-                  child: Text(
-                    'Quit'.toUpperCase(),
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                  onPressed: () {
-                    SystemNavigator.pop();
-                  },
-                )
-                    : SizedBox(),
-                TextButton(
-                  child: Text('ACCEPT'),
-                  onPressed: () async {
-                    String privacyPolicyAcceptTime =
-                    DateTime.now().toString().substring(0, 16).toString();
-
-                    print(_PickYearWidgetState.year);
-                    if (DateTime.now().year - _PickYearWidgetState.year <= 7) {
-                      maxAdContent = 'MAX_AD_CONTENT_RATING_G';
-                    }
-                    if (DateTime.now().year - _PickYearWidgetState.year <= 12) {
-                      maxAdContent = 'MAX_AD_CONTENT_RATING_PG';
-                    }
-                    if (DateTime.now().year - _PickYearWidgetState.year <= 16) {
-                      maxAdContent = 'MAX_AD_CONTENT_RATING_T';
-                    }
-                    if (DateTime.now().year - _PickYearWidgetState.year > 16) {
-                      maxAdContent = 'MAX_AD_CONTENT_RATING_MA';
-                    }
-                    final box = GetStorage();
-                    if (!box.hasData("USER'S_AGE")) {
-                      box.write("USER'S_AGE",
-                          DateTime.now().year - _PickYearWidgetState.year);
-                      box.write("MAX_AD_CONTENT", maxAdContent);
-                      box.write("IS_VERIFY_AGE", true);
-                      box.write(
-                          "PRIVACY_POLICY",
-                          DateTime.now()
-                              .toString()
-                              .substring(0, 16)
-                              .toString());
-                    } else {
-                      box.remove("USER'S_AGE");
-                      box.remove("MAX_AD_CONTENT");
-                      box.remove("IS_VERIFY_AGE");
-                      box.remove("PRIVACY_POLICY");
-                      box.write("USER'S_AGE",
-                          DateTime.now().year - _PickYearWidgetState.year);
-                      box.write("MAX_AD_CONTENT", maxAdContent);
-                      box.write("IS_VERIFY_AGE", true);
-                      box.write(
-                          "PRIVACY_POLICY",
-                          DateTime.now()
-                              .toString()
-                              .substring(0, 16)
-                              .toString());
-                    }
-
-                    Navigator.of(context).pop(privacyPolicyAcceptTime);
-                  },
+    String maxAdContent = "";
+    return Get.dialog(
+        WillPopScope(
+          onWillPop: null,
+          child: AlertDialog(
+            title: Text('Your Year of Birth'),
+            content: PickYearWidget(policyText!),
+            actions: <Widget>[
+              TextButton(
+                child: Text(
+                  'Quit'.toUpperCase(),
+                  style: TextStyle(color: Colors.grey),
                 ),
-              ],
-            ),
-          );
-        });
+                onPressed: () {
+                  SystemNavigator.pop();
+                },
+              )
+              ,
+              TextButton(
+                child: Text('ACCEPT'),
+                onPressed: () async {
+                  String privacyPolicyAcceptTime =
+                  DateTime.now().toString().substring(0, 16).toString();
+
+                  print(_PickYearWidgetState.year);
+                  if (DateTime.now().year - _PickYearWidgetState.year <= 7) {
+                    maxAdContent = 'MAX_AD_CONTENT_RATING_G';
+                  }
+                  if (DateTime.now().year - _PickYearWidgetState.year <= 12) {
+                    maxAdContent = 'MAX_AD_CONTENT_RATING_PG';
+                  }
+                  if (DateTime.now().year - _PickYearWidgetState.year <= 16) {
+                    maxAdContent = 'MAX_AD_CONTENT_RATING_T';
+                  }
+                  if (DateTime.now().year - _PickYearWidgetState.year > 16) {
+                    maxAdContent = 'MAX_AD_CONTENT_RATING_MA';
+                  }
+                  final box = GetStorage();
+                  if (!box.hasData("USER'S_AGE")) {
+                    box.write("USER'S_AGE",
+                        DateTime.now().year - _PickYearWidgetState.year);
+                    box.write("MAX_AD_CONTENT", maxAdContent);
+                    box.write("IS_VERIFY_AGE", true);
+                    box.write(
+                        "PRIVACY_POLICY",
+                        DateTime.now()
+                            .toString()
+                            .substring(0, 16)
+                            .toString());
+                  } else {
+                    box.remove("USER'S_AGE");
+                    box.remove("MAX_AD_CONTENT");
+                    box.remove("IS_VERIFY_AGE");
+                    box.remove("PRIVACY_POLICY");
+                    box.write("USER'S_AGE",
+                        DateTime.now().year - _PickYearWidgetState.year);
+                    box.write("MAX_AD_CONTENT", maxAdContent);
+                    box.write("IS_VERIFY_AGE", true);
+                    box.write(
+                        "PRIVACY_POLICY",
+                        DateTime.now()
+                            .toString()
+                            .substring(0, 16)
+                            .toString());
+                  }
+                  // Navigator.of(context).pop(privacyPolicyAcceptTime);
+                  Get.back(result: privacyPolicyAcceptTime);                  },
+              ),
+            ],
+          ),
+        ),
+        barrierDismissible: false,
+        );
   }
 }
+
 
 class PickYearWidget extends StatefulWidget {
   PickYearWidget(this.policyText);
@@ -632,6 +630,7 @@ class _PickYearWidgetState extends State<PickYearWidget> {
                         ..onTap = () {
                           PACoreShowDialog.policyDialog(context,
                               title: "Policy",
+                              policyText: PRIVACY_POLICY,
                               policyAcceptTime: "", funcOk: () {
                             Navigator.pop(context);
                             print("ok");
