@@ -15,6 +15,7 @@ dependencies:
   #  shared_preferences: ^2.0.3
   get_storage: ^2.0.2
   launch_review: ^3.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

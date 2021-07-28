@@ -493,7 +493,7 @@ class PACoreShowDialog {
           onWillPop: null,
           child: AlertDialog(
             title: Text('Your Year of Birth'),
-            content: PickYearWidget(policyText!),
+            content: PickYearWidget(policyText),
             actions: <Widget>[
               TextButton(
                 child: Text(
@@ -566,7 +566,7 @@ class PACoreShowDialog {
 
 class PickYearWidget extends StatefulWidget {
   PickYearWidget(this.policyText);
-  final String policyText;
+  final String? policyText;
 
   @override
   _PickYearWidgetState createState() {
