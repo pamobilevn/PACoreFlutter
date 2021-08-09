@@ -32,7 +32,7 @@ class PACoreShowDialog {
               child: AlertDialog(
                 title: Text(title),
                 content: SingleChildScrollView(
-                  child: policyText == '' ? Text(PRIVACY_POLICY) : Text(policyText!),
+                  child: policyText.isNull ? Text(PRIVACY_POLICY) : Text(policyText!),
                 ),
                 actions: [
                   TextButton(
