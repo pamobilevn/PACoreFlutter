@@ -41,8 +41,8 @@ class PACoreShowDialog {
                     },
                     child: FittedBox(
                       child: Text(
-                        policyAcceptTime != ""
-                            ? 'YOU ACCEPTED ON ' + policyAcceptTime!
+                        policyAcceptTime!.isNotEmpty
+                            ? 'YOU ACCEPTED ON ' + policyAcceptTime
                             : "OK",
                       ),
                     ),
