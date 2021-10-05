@@ -31,7 +31,7 @@ class PACoreShowDialog {
               margin: EdgeInsets.symmetric(
                   vertical: MediaQuery.of(context).size.shortestSide * 0.15),
               child: AlertDialog(
-                title: Text(title),
+                title: Text(title, style: (TextStyle(fontWeight: FontWeight.w700))),
                 content: SingleChildScrollView(
                   child: policyText.isNull
                       ? Text(PRIVACY_POLICY)
@@ -48,8 +48,9 @@ class PACoreShowDialog {
                               policyAcceptTime!.isNotEmpty
                                   ? 'YOU ACCEPTED ON ' + policyAcceptTime
                                   : "OK",
+                          style: (TextStyle(fontWeight: FontWeight.w700))
                             )
-                          : Text('OK'),
+                          : Text('OK',  style: (TextStyle(fontWeight: FontWeight.w700))),
                     ),
                   ),
                 ],
@@ -496,20 +497,20 @@ class PACoreShowDialog {
       WillPopScope(
         onWillPop: null,
         child: AlertDialog(
-          title: Text('Your Year of Birth'),
+          title: Text('Your Year of Birth', style: (TextStyle(fontWeight: FontWeight.w700))),
           content: PickYearWidget(policyText),
           actions: <Widget>[
             TextButton(
               child: Text(
                 'Quit'.toUpperCase(),
-                style: TextStyle(color: Colors.grey),
+                style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
               ),
               onPressed: () {
                 SystemNavigator.pop();
               },
             ),
             TextButton(
-              child: Text('ACCEPT'),
+              child: Text('ACCEPT',   style: (TextStyle(fontWeight: FontWeight.w700))),
               onPressed: () async {
                 String privacyPolicyAcceptTime =
                     DateTime.now().toString().substring(0, 16).toString();
