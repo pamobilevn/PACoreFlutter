@@ -495,7 +495,9 @@ class PACoreShowDialog {
     String maxAdContent = "";
     return Get.dialog(
       WillPopScope(
-        onWillPop: null,
+        onWillPop: () async {
+          return false;
+        },
         child: AlertDialog(
           title: Text('Your Year of Birth', style: (TextStyle(fontWeight: FontWeight.w700))),
           content: PickYearWidget(policyText),
