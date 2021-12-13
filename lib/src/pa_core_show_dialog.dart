@@ -518,17 +518,18 @@ class PACoreShowDialog {
                     DateTime.now().toString().substring(0, 16).toString();
 
                 print(_PickYearWidgetState.year);
-                if (DateTime.now().year - _PickYearWidgetState.year <= 7) {
-                  maxAdContent = 'MAX_AD_CONTENT_RATING_G';
+
+                if (DateTime.now().year - _PickYearWidgetState.year > 16) {
+                  maxAdContent = 'MAX_AD_CONTENT_RATING_MA';
+                }
+                if (DateTime.now().year - _PickYearWidgetState.year <= 16) {
+                maxAdContent = 'MAX_AD_CONTENT_RATING_T';
                 }
                 if (DateTime.now().year - _PickYearWidgetState.year <= 12) {
                   maxAdContent = 'MAX_AD_CONTENT_RATING_PG';
                 }
-                if (DateTime.now().year - _PickYearWidgetState.year <= 16) {
-                  maxAdContent = 'MAX_AD_CONTENT_RATING_T';
-                }
-                if (DateTime.now().year - _PickYearWidgetState.year > 16) {
-                  maxAdContent = 'MAX_AD_CONTENT_RATING_MA';
+                if (DateTime.now().year - _PickYearWidgetState.year <= 7) {
+                  maxAdContent = 'MAX_AD_CONTENT_RATING_G';
                 }
                 final box = GetStorage();
                 if (!box.hasData("USER'S_AGE")) {
