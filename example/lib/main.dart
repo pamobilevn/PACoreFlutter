@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pa_core_flutter/pa_core_flutter.dart';
-import 'package:get/get.dart';
 
 void main() {
   runApp(MyApp());

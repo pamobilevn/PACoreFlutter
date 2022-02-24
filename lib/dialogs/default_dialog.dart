@@ -6,9 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:pa_core_flutter/src/string.dart';
+import 'package:pa_core_flutter/string.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PACoreShowDialog {
   // @title: title Dialog
@@ -33,7 +32,7 @@ class PACoreShowDialog {
               child: AlertDialog(
                 title: Text(title, style: (TextStyle(fontWeight: FontWeight.w700))),
                 content: SingleChildScrollView(
-                  child: policyText.isNull
+                  child: policyText == ''
                       ? Text(PRIVACY_POLICY)
                       : Text(policyText!),
                 ),
@@ -43,7 +42,7 @@ class PACoreShowDialog {
                       funcOk();
                     },
                     child: FittedBox(
-                      child: GetPlatform.isAndroid
+                      child: Platform.isAndroid
                           ? Text(
                               policyAcceptTime!.isNotEmpty
                                   ? 'YOU ACCEPTED ON ' + policyAcceptTime
@@ -493,72 +492,78 @@ class PACoreShowDialog {
 
   static pickYearDialog(BuildContext context, {String? policyText}) {
     String maxAdContent = "";
-    return Get.dialog(
-      WillPopScope(
-        onWillPop: () async {
-          return false;
-        },
-        child: AlertDialog(
-          title: Text('Your Year of Birth', style: (TextStyle(fontWeight: FontWeight.w700))),
-          content: PickYearWidget(policyText),
-          actions: <Widget>[
-            TextButton(
-              child: Text(
-                'Quit'.toUpperCase(),
-                style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
+    return showDialog(
+      builder: (context) {
+       return WillPopScope(
+          onWillPop: () async {
+            return false;
+          },
+          child: AlertDialog(
+            title: Text('Your Year of Birth', style: (TextStyle(fontWeight: FontWeight.w700))),
+            content: PickYearWidget(policyText),
+            actions: <Widget>[
+              TextButton(
+                child: Text(
+                  'Quit'.toUpperCase(),
+                  style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
+                ),
+                onPressed: () {
+                  SystemNavigator.pop();
+                },
               ),
-              onPressed: () {
-                SystemNavigator.pop();
-              },
-            ),
-            TextButton(
-              child: Text('ACCEPT',   style: (TextStyle(fontWeight: FontWeight.w700))),
-              onPressed: () async {
-                String privacyPolicyAcceptTime =
-                    DateTime.now().toString().substring(0, 16).toString();
+              TextButton(
+                child: Text('ACCEPT',   style: (TextStyle(fontWeight: FontWeight.w700))),
+                onPressed: () async {
+                  String privacyPolicyAcceptTime =
+                  DateTime.now().toString().substring(0, 16).toString();
 
-                print(_PickYearWidgetState.year);
+                  print(_PickYearWidgetState.year);
 
-                if (DateTime.now().year - _PickYearWidgetState.year > 16) {
-                  maxAdContent = 'MAX_AD_CONTENT_RATING_MA';
-                }
-                if (DateTime.now().year - _PickYearWidgetState.year <= 16) {
-                maxAdContent = 'MAX_AD_CONTENT_RATING_T';
-                }
-                if (DateTime.now().year - _PickYearWidgetState.year <= 12) {
-                  maxAdContent = 'MAX_AD_CONTENT_RATING_PG';
-                }
-                if (DateTime.now().year - _PickYearWidgetState.year <= 7) {
-                  maxAdContent = 'MAX_AD_CONTENT_RATING_G';
-                }
-                final box = GetStorage();
-                if (!box.hasData("USER'S_AGE")) {
-                  box.write("USER'S_AGE",
-                      DateTime.now().year - _PickYearWidgetState.year);
-                  box.write("MAX_AD_CONTENT", maxAdContent);
-                  box.write("IS_VERIFY_AGE", true);
-                  box.write("PRIVACY_POLICY",
-                      DateTime.now().toString().substring(0, 16).toString());
-                } else {
-                  box.remove("USER'S_AGE");
-                  box.remove("MAX_AD_CONTENT");
-                  box.remove("IS_VERIFY_AGE");
-                  box.remove("PRIVACY_POLICY");
-                  box.write("USER'S_AGE",
-                      DateTime.now().year - _PickYearWidgetState.year);
-                  box.write("MAX_AD_CONTENT", maxAdContent);
-                  box.write("IS_VERIFY_AGE", true);
-                  box.write("PRIVACY_POLICY",
-                      DateTime.now().toString().substring(0, 16).toString());
-                }
-                // Navigator.of(context).pop(privacyPolicyAcceptTime);
-                Get.back(result: privacyPolicyAcceptTime);
-              },
-            ),
-          ],
-        ),
-      ),
+                  if (DateTime.now().year - _PickYearWidgetState.year > 16) {
+                    maxAdContent = 'MAX_AD_CONTENT_RATING_MA';
+                  }
+                  if (DateTime.now().year - _PickYearWidgetState.year <= 16) {
+                    maxAdContent = 'MAX_AD_CONTENT_RATING_T';
+                  }
+                  if (DateTime.now().year - _PickYearWidgetState.year <= 12) {
+                    maxAdContent = 'MAX_AD_CONTENT_RATING_PG';
+                  }
+                  if (DateTime.now().year - _PickYearWidgetState.year <= 7) {
+                    maxAdContent = 'MAX_AD_CONTENT_RATING_G';
+                  }
+                  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+                  if (!sharedPreferences.containsKey("USER'S_AGE")) {
+                    sharedPreferences.setInt("USER'S_AGE",
+                        DateTime.now().year - _PickYearWidgetState.year);
+                    sharedPreferences.setString("MAX_AD_CONTENT", maxAdContent);
+                    sharedPreferences.setBool("IS_VERIFY_AGE", true);
+                    sharedPreferences.setString("PRIVACY_POLICY",
+                        DateTime.now().toString().substring(0, 16).toString());
+                  } else {
+                    sharedPreferences.remove("USER'S_AGE");
+                    sharedPreferences.remove("MAX_AD_CONTENT");
+                    sharedPreferences.remove("IS_VERIFY_AGE");
+                    sharedPreferences.remove("PRIVACY_POLICY");
+                    sharedPreferences.setInt("USER'S_AGE",
+                        DateTime.now().year - _PickYearWidgetState.year);
+                    sharedPreferences.setString("MAX_AD_CONTENT", maxAdContent);
+                    sharedPreferences.setBool("IS_VERIFY_AGE", true);
+                    sharedPreferences.setString("PRIVACY_POLICY",
+                        DateTime.now().toString().substring(0, 16).toString());
+                  }
+                  // Navigator.of(context).pop(privacyPolicyAcceptTime);
+                  Navigator.pop(context, privacyPolicyAcceptTime);
+                },
+              ),
+            ],
+          ),
+        );
+
+      },
+      context: context,
       barrierDismissible: false,
+
     );
   }
 }
