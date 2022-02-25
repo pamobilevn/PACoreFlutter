@@ -6,13 +6,15 @@
 
 import 'dart:math';
 
+import 'package:flutter/material.dart';
+
 class PaTextUtils {
 
   static const String _dummyText =
       "Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book. There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc. Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book. There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc";
 
   static const String _emojiText ="😀 😃 😄 😁 😆 😅 😂 🤣 😍 🥰 😘 😠 😡 💩 👻 🧐 🤓 😎 😋 😛 😝 😜 😢 😭 😤 🥱 😴 😾";
-
+//region country code
   static List<dynamic> countryCode = [
     {"code": "+7 840", "name": "Abkhazia"},
     {"code": "+93", "name": "Afghanistan"},
@@ -251,6 +253,7 @@ class PaTextUtils {
     {"code": "+255", "name": "Zanzibar"},
     {"code": "+263", "name": "Zimbabwe"}
   ];
+  //endregion
 
 
   static bool parseBool(dynamic text){
@@ -360,5 +363,79 @@ class PaTextUtils {
     return timeText;
   }
 
+  static Widget buildOverlaysProfile(
+      {double size = 50,
+        required List<String> images,
+        bool enabledOverlayBorder = false,
+        Color overlayBorderColor = Colors.white,
+        double overlayBorderThickness = 1,
+        double leftFraction = 0.7,
+        double topFraction = 0}) {
+    double leftPlusSize = size * leftFraction;
+    double topPlusSize = size * topFraction;
+    double leftPosition = 0;
+    double topPosition = 0;
+
+    List<Widget> list = [];
+    for (int i = 0; i < images.length; i++) {
+      if (i == 0) {
+        list.add(
+          Container(
+            decoration: enabledOverlayBorder
+                ? BoxDecoration(
+                border: Border.all(
+                    color: Colors.transparent,
+                    width: overlayBorderThickness),
+                shape: BoxShape.circle)
+                : BoxDecoration(),
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(size / 2)),
+              child: Image(
+                image: AssetImage(images[i]),
+                height: size,
+                width: size,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        );
+      } else {
+        leftPosition += leftPlusSize;
+        topPosition += topPlusSize;
+        list.add(Positioned(
+          left: leftPosition,
+          top: topPosition,
+          child: Container(
+            decoration: enabledOverlayBorder
+                ? BoxDecoration(
+                border: Border.all(
+                    color: overlayBorderColor,
+                    width: overlayBorderThickness),
+                shape: BoxShape.circle)
+                : BoxDecoration(),
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(size / 2)),
+              child: Image(
+                image: AssetImage(images[i]),
+                height: size,
+                width: size,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ));
+      }
+    }
+    double width =
+        leftPosition + size + ((images.length) * overlayBorderThickness);
+    double height =
+        topPosition + size + ((images.length) * overlayBorderThickness);
+
+    return Container(
+      width: width,
+      height: height,
+      child: Stack(clipBehavior: Clip.none, children: list),
+    );
+  }
 
 }
