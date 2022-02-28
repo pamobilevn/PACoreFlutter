@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:launch_review/launch_review.dart';
 import 'package:pa_core_flutter/string.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -487,6 +488,46 @@ class PACoreShowDialog {
           );
         });
   }
+
+
+  static remindRatingDialog(BuildContext context,
+      SharedPreferences pref, String idApp
+      ) {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Thank you"),
+            content: Text(
+                "Would you please rate me? If you need more features, please post your suggestion in review comment!"),
+            actions: <Widget>[
+              TextButton(
+                child: Text('LATER'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  pref.remove("RATING_REMIND");
+                  pref.setInt("RATING_REMIND", 0);
+                  Navigator.pop(context);
+                  LaunchReview.launch(
+                      androidAppId: idApp,
+                      iOSAppId: idApp);
+                  Platform.isAndroid ?  LaunchReview.launch(
+                      androidAppId: idApp, writeReview: true) : LaunchReview.launch(iOSAppId: idApp);
+
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+
 
   // policy text
 

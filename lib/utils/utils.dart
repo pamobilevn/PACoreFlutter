@@ -8,3 +8,4 @@ export 'measure_size.dart';
 export 'spacing.dart';
 export 'text_utils.dart';
 export 'time_utils.dart';
+export 'function_utils.dart';
