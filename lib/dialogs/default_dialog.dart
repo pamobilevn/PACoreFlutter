@@ -20,42 +20,46 @@ class PACoreShowDialog {
   /// Khi policyAcceptTime = "" thì hiện textButton OK, ngược lại hiện policyAcceptTime
 
   static policyDialog(BuildContext context,
-      {required String title,
-      String? policyAcceptTime,
-      String? policyText,
-      required Function funcOk}) async {
+      {String? policyAcceptTime,
+      String? policyText,}) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
     return showDialog(
         context: context,
         barrierDismissible: true,
-        builder: (BuildContext context) => Container(
-              margin: EdgeInsets.symmetric(
-                  vertical: MediaQuery.of(context).size.shortestSide * 0.15),
-              child: AlertDialog(
-                title: Text(title, style: (TextStyle(fontWeight: FontWeight.w700))),
-                content: SingleChildScrollView(
-                  child: policyText == ''
-                      ? Text(PRIVACY_POLICY)
-                      : Text(policyText!),
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () async {
-                      funcOk();
-                    },
-                    child: FittedBox(
-                      child: Platform.isAndroid
-                          ? Text(
-                              policyAcceptTime!.isNotEmpty
-                                  ? 'YOU ACCEPTED ON ' + policyAcceptTime
-                                  : "OK",
-                          style: (TextStyle(fontWeight: FontWeight.w700))
-                            )
-                          : Text('OK',  style: (TextStyle(fontWeight: FontWeight.w700))),
-                    ),
-                  ),
-                ],
+        builder: (BuildContext context) {
+
+          return Container(
+            margin: EdgeInsets.symmetric(
+                vertical: MediaQuery.of(context).size.shortestSide * 0.15),
+            child: AlertDialog(
+              title: Text('Policy', style: (TextStyle(fontWeight: FontWeight.w700))),
+              content: SingleChildScrollView(
+                // child: policyText == ''
+                //     ? Text(PRIVACY_POLICY)
+                //     : Text(policyText!),
+                child: Text(policyText??PRIVACY_POLICY),
               ),
-            ));
+              actions: [
+                TextButton(
+                  onPressed: () async {
+                    Navigator.pop(context);
+                  },
+                  child: FittedBox(
+                    child: Platform.isAndroid
+                        ? Text(
+                        policyAcceptTime == ''
+                            ? 'YOU ACCEPTED ON ' + sharedPreferences.getString('PRIVACY_POLICY')!
+                            : "OK",
+                        style: (TextStyle(fontWeight: FontWeight.w700))
+                    )
+                        : Text('OK',  style: (TextStyle(fontWeight: FontWeight.w700))),
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
   }
 
   // title: title for dialog
@@ -531,7 +535,7 @@ class PACoreShowDialog {
 
   // policy text
 
-  static pickYearDialog(BuildContext context, {String? policyText}) {
+  static pickYearDialog(BuildContext context, {String? policyText}) async {
     String maxAdContent = "";
     return showDialog(
       builder: (context) {
@@ -557,8 +561,6 @@ class PACoreShowDialog {
                 onPressed: () async {
                   String privacyPolicyAcceptTime =
                   DateTime.now().toString().substring(0, 16).toString();
-
-                  print(_PickYearWidgetState.year);
 
                   if (DateTime.now().year - _PickYearWidgetState.year > 16) {
                     maxAdContent = 'MAX_AD_CONTENT_RATING_MA';
@@ -594,17 +596,17 @@ class PACoreShowDialog {
                         DateTime.now().toString().substring(0, 16).toString());
                   }
                   // Navigator.of(context).pop(privacyPolicyAcceptTime);
-                  Navigator.pop(context, privacyPolicyAcceptTime);
+                  Navigator.pop(context);
+                  print(DateTime.now().toString().substring(0, 16).toString());
+                  print(sharedPreferences.getString('PRIVACY_POLICY'));
                 },
               ),
             ],
           ),
         );
-
       },
       context: context,
       barrierDismissible: false,
-
     );
   }
 }
@@ -674,12 +676,9 @@ class _PickYearWidgetState extends State<PickYearWidget> {
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           PACoreShowDialog.policyDialog(context,
-                              title: "Policy",
+
                               policyText: PRIVACY_POLICY,
-                              policyAcceptTime: "", funcOk: () {
-                            Navigator.pop(context);
-                            print("ok");
-                          });
+                              policyAcceptTime: "gdfg",);
                         }),
                   TextSpan(text: " to use this application"),
                 ],

@@ -54,7 +54,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 PaFunctionUtils().showDialogRating(context, 'co.pamobile.pokemon.cardmaker', 3);
               },
             ),
-
+            TextButton(
+              child: Text('policy'),
+              onPressed: (){
+                PACoreShowDialog.pickYearDialog(context);
+              },
+            ),
           ],
         ),
       ),
