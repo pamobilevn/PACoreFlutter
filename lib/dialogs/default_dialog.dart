@@ -337,6 +337,7 @@ class PACoreShowDialog {
 
   /// ask purchase dialog <br>
   /// Gọi hàm purchase từ IAP
+  //added
   static askPremiumDialog(BuildContext context,
       {String? title, String? contentText, required Function funcPurchase}) {
     return showDialog(
@@ -357,7 +358,9 @@ class PACoreShowDialog {
                 ),
               ),
               TextButton(
-                onPressed: () => funcPurchase,
+                onPressed: (){
+                  funcPurchase();
+                },
                 child: Text('UPGRADE'),
               ),
             ],
@@ -372,7 +375,6 @@ class PACoreShowDialog {
   // bool isNumber: input type number or not
   // bool multiLine: input field multiline
 
-  ///
   static inputNameDialog(BuildContext context,
       {required String title,
       required bool isPremium,
