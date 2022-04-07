@@ -2,11 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-/// [PaSpacing] - provides spacing of various types.
+/// [PASpacing] - provides spacing of various types.
 
 import 'package:flutter/material.dart';
 
-class PaSpacing {
+class PASpacing {
 
   static EdgeInsets zero = EdgeInsets.zero;
   static EdgeInsets only(
@@ -15,55 +15,55 @@ class PaSpacing {
   }
   static EdgeInsets fromLTRB(
       double left, double top, double right, double bottom) {
-    return PaSpacing.only(bottom: bottom, top: top, right: right, left: left);
+    return PASpacing.only(bottom: bottom, top: top, right: right, left: left);
   }
   static EdgeInsets all(double spacing) {
-    return PaSpacing.only(
+    return PASpacing.only(
         bottom: spacing, top: spacing, right: spacing, left: spacing);
   }
   static EdgeInsets left(double spacing) {
-    return PaSpacing.only(left: spacing);
+    return PASpacing.only(left: spacing);
   }
   static EdgeInsets nLeft(double spacing) {
-    return PaSpacing.only(top: spacing, bottom: spacing, right: spacing);
+    return PASpacing.only(top: spacing, bottom: spacing, right: spacing);
   }
   static EdgeInsets top(double spacing) {
-    return PaSpacing.only(top: spacing);
+    return PASpacing.only(top: spacing);
   }
   static EdgeInsets nTop(double spacing) {
-    return PaSpacing.only(left: spacing, bottom: spacing, right: spacing);
+    return PASpacing.only(left: spacing, bottom: spacing, right: spacing);
   }
   static EdgeInsets right(double spacing) {
-    return PaSpacing.only(right: spacing);
+    return PASpacing.only(right: spacing);
   }
   static EdgeInsets nRight(double spacing) {
-    return PaSpacing.only(top: spacing, bottom: spacing, left: spacing);
+    return PASpacing.only(top: spacing, bottom: spacing, left: spacing);
   }
   static EdgeInsets bottom(double spacing) {
-    return PaSpacing.only(bottom: spacing);
+    return PASpacing.only(bottom: spacing);
   }
   static EdgeInsets nBottom(double spacing) {
-    return PaSpacing.only(top: spacing, left: spacing, right: spacing);
+    return PASpacing.only(top: spacing, left: spacing, right: spacing);
   }
   static EdgeInsets horizontal(double spacing) {
-    return PaSpacing.only(left: spacing, right: spacing);
+    return PASpacing.only(left: spacing, right: spacing);
   }
   static EdgeInsets x(double spacing) {
-    return PaSpacing.only(left: spacing, right: spacing);
+    return PASpacing.only(left: spacing, right: spacing);
   }
   static EdgeInsets xy(double xSpacing, double ySpacing) {
-    return PaSpacing.only(
+    return PASpacing.only(
         left: xSpacing, right: xSpacing, top: ySpacing, bottom: ySpacing);
   }
   static EdgeInsets  y(double spacing) {
-    return PaSpacing.only(top: spacing, bottom: spacing);
+    return PASpacing.only(top: spacing, bottom: spacing);
   }
   static EdgeInsets vertical(double spacing) {
-    return PaSpacing.only(top: spacing, bottom: spacing);
+    return PASpacing.only(top: spacing, bottom: spacing);
   }
   static EdgeInsets symmetric(
       {double vertical = 0, double horizontal = 0}) {
-    return PaSpacing.only(
+    return PASpacing.only(
         top: vertical, right: horizontal, left: horizontal, bottom: vertical);
   }
   static SizedBox height(double height) {

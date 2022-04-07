@@ -3,14 +3,21 @@
 * Version : 1.0.0
 * */
 
+// Copyright 2021 The FlutX Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
 
+/// [PAAppThemeType.dark] - Applies all the properties for dark theme
+/// [PAAppThemeType.light] - Applies all the properties for light theme
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-enum PaAppThemeType { light, dark, black }
+enum PAAppThemeType { light, dark, black }
 
-class PaAppTheme {
+class PAAppTheme {
 
-  static PaAppThemeType defaultThemeType = PaAppThemeType.light;
+  static PAAppThemeType defaultThemeType = PAAppThemeType.light;
 
   static TextDirection _textDirection = TextDirection.ltr;
 
@@ -23,7 +30,7 @@ class PaAppTheme {
   }
 
 
-  static ThemeData theme = PaAppTheme.getThemeFromThemeMode();
+  static ThemeData theme = PAAppTheme.getThemeFromThemeMode();
 
 
   /// -------------------------- Light Theme  -------------------------------------------- ///
@@ -270,15 +277,15 @@ class PaAppTheme {
   static ThemeData blackTheme = darkTheme.copyWith();
 
 
-  static ThemeData getThemeFromThemeMode({PaAppThemeType? themeType}) {
+  static ThemeData getThemeFromThemeMode({PAAppThemeType? themeType}) {
     if (themeType == null) {
       themeType = defaultThemeType;
     }
 
     switch (themeType) {
-      case PaAppThemeType.light:
+      case PAAppThemeType.light:
         return lightTheme;
-      case PaAppThemeType.black:
+      case PAAppThemeType.black:
         return blackTheme;
       default:
         return darkTheme;
@@ -298,9 +305,9 @@ class PaAppTheme {
     blackTheme = themeData;
   }
 
-  static void changeThemeType(PaAppThemeType? themeType){
-    defaultThemeType = themeType??PaAppThemeType.light;
-    theme = PaAppTheme.getThemeFromThemeMode();
+  static void changeThemeType(PAAppThemeType? themeType){
+    defaultThemeType = themeType??PAAppThemeType.light;
+    theme = PAAppTheme.getThemeFromThemeMode();
 
   }
 

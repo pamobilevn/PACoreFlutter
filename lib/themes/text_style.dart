@@ -162,7 +162,7 @@ class PaTextStyle {
     Color? finalColor;
     if (color == null) {
       Color themeColor =
-          PaAppTheme.getThemeFromThemeMode().colorScheme.onBackground;
+          PAAppTheme.getThemeFromThemeMode().colorScheme.onBackground;
       finalColor = xMuted
           ? themeColor.withAlpha(160)
           : (muted ? themeColor.withAlpha(200) : themeColor);
