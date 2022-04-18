@@ -7,3 +7,4 @@ export 'extensions/extensions.dart';
 export 'utils/utils.dart';
 export 'network/network.dart';
 export 'widgets/widgets.dart';
+export 'functions/functions.dart';
