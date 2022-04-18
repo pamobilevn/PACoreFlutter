@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:launch_review/launch_review.dart';
 class InitFunction {
+
   checkUpdate(BuildContext ctx, int versionRemote, int versionInApp, String androidAppId, String iosAppId) async {
     if(versionInApp < versionRemote){
       showDialog(
@@ -24,4 +27,32 @@ class InitFunction {
         }, );
     }
   }
+
+  rateDialog(BuildContext context, String packageName){
+    showDialog(context: context, builder: (context){
+      return AlertDialog(
+        title: Text('Thank you'),
+        content: Text(
+            "Would you please rate me? If you need more features, please post your suggestion in review comment!"),
+        actions: [
+          TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Cancel')),
+          TextButton(onPressed: () {
+
+            Platform.isAndroid
+                ? LaunchReview.launch(
+                androidAppId: packageName, writeReview: true)
+                : LaunchReview.launch(
+                iOSAppId: packageName,
+                writeReview: true);
+            Navigator.pop(context);
+          }, child: Text('Rate')),
+        ],
+      );
+    });
+  }
 }
+
