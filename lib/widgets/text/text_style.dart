@@ -1,18 +1,10 @@
-/*
-* File : App Theme
-* Version : 1.0.0
-* */
 
-// Copyright 2021 The FlutX Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
-/// [PATextStyle] - gives 13 different type of styles to the text on the basis of size
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-// import 'app_theme.dart';
+import '../../themes/app_themes.dart';
+
+// import 'app_themes.dart';
 
 enum PATextType {
   displayLarge,
@@ -277,16 +269,15 @@ class PATextStyle {
 
     Color? finalColor;
     if (color == null) {
-      finalColor = Colors.red;
-      // Color themeColor =
-      //     PAAppTheme.getThemeFromThemeMode().colorScheme.onBackground;
-      // finalColor = xMuted
-      //     ? themeColor.withAlpha(160)
-      //     : (muted ? themeColor.withAlpha(200) : themeColor);
+      Color themeColor =
+          PAAppTheme.getThemeFromThemeMode().colorScheme.onBackground;
+      finalColor = xMuted
+          ? themeColor.withAlpha(160)
+          : (muted ? themeColor.withAlpha(200) : themeColor);
     } else {
-      // finalColor = xMuted
-      //     ? color.withAlpha(160)
-      //     : (muted ? color.withAlpha(200) : color);
+      finalColor = xMuted
+          ? color.withAlpha(160)
+          : (muted ? color.withAlpha(200) : color);
     }
 
     return _fontFamily(
