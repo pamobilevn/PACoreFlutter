@@ -48,7 +48,7 @@ class PACoreShowDialog {
                   child: FittedBox(
                     child: Platform.isAndroid
                         ? Text(
-                        policyAcceptTime == ''
+                        policyAcceptTime != ''
                             ? 'YOU ACCEPTED ON ' + sharedPreferences.getString('PRIVACY_POLICY')!
                             : "OK",
                         style: (TextStyle(fontWeight: FontWeight.w700))
