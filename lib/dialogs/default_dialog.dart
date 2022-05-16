@@ -28,18 +28,18 @@ class PACoreShowDialog {
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
-
+          ThemeData theme = Theme.of(context);
           return Container(
             margin: EdgeInsets.symmetric(
                 vertical: MediaQuery.of(context).size.shortestSide * 0.15),
             child: AlertDialog(
-              title: Text('Policy', style: (TextStyle(fontWeight: FontWeight.w700, color: Colors.black))),
-              backgroundColor: Colors.white,
+              title: Text('Policy', style: (TextStyle(fontWeight: FontWeight.w700, color: theme.colorScheme.onBackground))),
+              backgroundColor: theme.colorScheme.background,
               content: SingleChildScrollView(
                 // child: policyText == ''
                 //     ? Text(PRIVACY_POLICY)
                 //     : Text(policyText!),
-                child: Text(policyText??PRIVACY_POLICY, style: TextStyle(color: Colors.black),),
+                child: Text(policyText??PRIVACY_POLICY, style: TextStyle(color: theme.colorScheme.onBackground),),
               ),
               actions: [
                 TextButton(
@@ -52,9 +52,9 @@ class PACoreShowDialog {
                         policyAcceptTime != ''
                             ? 'YOU ACCEPTED ON ' + sharedPreferences.getString('PRIVACY_POLICY')!
                             : "OK",
-                        style: (TextStyle(fontWeight: FontWeight.w700))
+                        style: (TextStyle(fontWeight: FontWeight.w700, color: theme.colorScheme.onBackground))
                     )
-                        : Text('OK',  style: (TextStyle(fontWeight: FontWeight.w700))),
+                        : Text('OK',  style: (TextStyle(fontWeight: FontWeight.w700, color: theme.colorScheme.onBackground))),
                   ),
                 ),
               ],
@@ -538,7 +538,7 @@ class PACoreShowDialog {
 
   // policy text
 
-  static pickYearDialog(BuildContext context, {String? policyText,}) async {
+  static pickYearDialog(BuildContext context, {String? policyText,Color? colorBg, Color? colorText}) async {
     String maxAdContent = "";
     return showDialog(
       builder: (context) {
@@ -547,21 +547,21 @@ class PACoreShowDialog {
             return false;
           },
           child: AlertDialog(
-            title: Text('Your Year of Birth', style: (TextStyle(color: Colors.black ,fontWeight: FontWeight.w700))),
-            backgroundColor: Colors.white,
-            content: PickYearWidget(policyText),
+            title: Text('Your Year of Birth', style: (TextStyle(color: colorText ,fontWeight: FontWeight.w700))),
+            backgroundColor: colorBg,
+            content: PickYearWidget(policyText, colorBg, colorText),
             actions: <Widget>[
               TextButton(
                 child: Text(
                   'Quit'.toUpperCase(),
-                  style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
+                  style: TextStyle(color: colorText, fontWeight: FontWeight.w700),
                 ),
                 onPressed: () {
                   SystemNavigator.pop();
                 },
               ),
               TextButton(
-                child: Text('ACCEPT',   style: (TextStyle(fontWeight: FontWeight.w700, color: Colors.black))),
+                child: Text('ACCEPT',   style: (TextStyle(fontWeight: FontWeight.w700, color: colorText))),
                 onPressed: () async {
                   String privacyPolicyAcceptTime =
                   DateTime.now().toString().substring(0, 16).toString();
@@ -616,9 +616,10 @@ class PACoreShowDialog {
 }
 
 class PickYearWidget extends StatefulWidget {
-  PickYearWidget(this.policyText);
+  PickYearWidget(this.policyText, this.colorBg, this.colorText);
   final String? policyText;
-
+  final Color? colorBg;
+  final Color? colorText;
   @override
   _PickYearWidgetState createState() {
     return _PickYearWidgetState();
@@ -646,12 +647,11 @@ class _PickYearWidgetState extends State<PickYearWidget> {
         child: Center(
           child: Text(
             (1970 + index).toString(),
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(color: widget.colorText),
           ),
         ),
       );
     });
-
     return Wrap(
       children: <Widget>[
         Column(
@@ -671,20 +671,20 @@ class _PickYearWidgetState extends State<PickYearWidget> {
                 )),
             RichText(
               text: TextSpan(
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(color: widget.colorText),
                 children: <TextSpan>[
                   TextSpan(text: "I accept the "),
                   TextSpan(
                       text: "Privacy Policy",
-                      style: TextStyle(decoration: TextDecoration.underline),
+                      style: TextStyle(decoration: TextDecoration.underline, color: widget.colorText),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           PACoreShowDialog.policyDialog(context,
 
                               policyText: PRIVACY_POLICY,
-                              policyAcceptTime: "gdfg",);
+                              policyAcceptTime: ".",);
                         }),
-                  TextSpan(text: " to use this application"),
+                  TextSpan(text: " to use this application", style: TextStyle(color: widget.colorText)),
                 ],
               ),
             ),
