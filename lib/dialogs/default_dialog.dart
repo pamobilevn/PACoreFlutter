@@ -33,12 +33,13 @@ class PACoreShowDialog {
             margin: EdgeInsets.symmetric(
                 vertical: MediaQuery.of(context).size.shortestSide * 0.15),
             child: AlertDialog(
-              title: Text('Policy', style: (TextStyle(fontWeight: FontWeight.w700))),
+              title: Text('Policy', style: (TextStyle(fontWeight: FontWeight.w700, color: Colors.black))),
+              backgroundColor: Colors.white,
               content: SingleChildScrollView(
                 // child: policyText == ''
                 //     ? Text(PRIVACY_POLICY)
                 //     : Text(policyText!),
-                child: Text(policyText??PRIVACY_POLICY),
+                child: Text(policyText??PRIVACY_POLICY, style: TextStyle(color: Colors.black),),
               ),
               actions: [
                 TextButton(
@@ -537,7 +538,7 @@ class PACoreShowDialog {
 
   // policy text
 
-  static pickYearDialog(BuildContext context, {String? policyText}) async {
+  static pickYearDialog(BuildContext context, {String? policyText,}) async {
     String maxAdContent = "";
     return showDialog(
       builder: (context) {
@@ -546,7 +547,8 @@ class PACoreShowDialog {
             return false;
           },
           child: AlertDialog(
-            title: Text('Your Year of Birth', style: (TextStyle(fontWeight: FontWeight.w700))),
+            title: Text('Your Year of Birth', style: (TextStyle(color: Colors.black ,fontWeight: FontWeight.w700))),
+            backgroundColor: Colors.white,
             content: PickYearWidget(policyText),
             actions: <Widget>[
               TextButton(
@@ -559,7 +561,7 @@ class PACoreShowDialog {
                 },
               ),
               TextButton(
-                child: Text('ACCEPT',   style: (TextStyle(fontWeight: FontWeight.w700))),
+                child: Text('ACCEPT',   style: (TextStyle(fontWeight: FontWeight.w700, color: Colors.black))),
                 onPressed: () async {
                   String privacyPolicyAcceptTime =
                   DateTime.now().toString().substring(0, 16).toString();
