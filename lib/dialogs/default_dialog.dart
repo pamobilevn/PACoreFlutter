@@ -23,7 +23,6 @@ class PACoreShowDialog {
       {String? policyAcceptTime,
       String? policyText,}) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-
     return showDialog(
         context: context,
         barrierDismissible: true,
@@ -49,8 +48,8 @@ class PACoreShowDialog {
                   child: FittedBox(
                     child: Platform.isAndroid
                         ? Text(
-                        policyAcceptTime != ''
-                            ? 'YOU ACCEPTED ON ' + sharedPreferences.getString('PRIVACY_POLICY')!
+                        policyAcceptTime!.isNotEmpty
+                            ? 'YOU ACCEPTED ON ' + policyAcceptTime
                             : "OK",
                         style: (TextStyle(fontWeight: FontWeight.w700, color: theme.colorScheme.onBackground))
                     )
@@ -680,9 +679,9 @@ class _PickYearWidgetState extends State<PickYearWidget> {
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           PACoreShowDialog.policyDialog(context,
-
                               policyText: PRIVACY_POLICY,
-                              policyAcceptTime: ".",);
+                            policyAcceptTime: ""
+                              );
                         }),
                   TextSpan(text: " to use this application", style: TextStyle(color: widget.colorText)),
                 ],
