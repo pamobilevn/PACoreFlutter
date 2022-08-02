@@ -39,7 +39,7 @@ class InitFunction {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Cancel')),
+              child: Text('Cancel', style: TextStyle(color: Theme.of(context).colorScheme.onBackground),)),
           TextButton(onPressed: () {
 
             Platform.isAndroid
@@ -49,7 +49,7 @@ class InitFunction {
                 iOSAppId: packageName,
                 writeReview: true);
             Navigator.pop(context);
-          }, child: Text('Rate')),
+          }, child: Text('Rate',style: TextStyle(color: Theme.of(context).colorScheme.onBackground))),
         ],
       );
     });
