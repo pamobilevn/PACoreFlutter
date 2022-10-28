@@ -509,13 +509,13 @@ class PACoreShowDialog {
                 "Would you please rate me? If you need more features, please post your suggestion in review comment!"),
             actions: <Widget>[
               TextButton(
-                child: Text('LATER'),
+                child: Text('LATER',style: TextStyle(color: Theme.of(context).colorScheme.onSurface),),
                 onPressed: () {
                   Navigator.pop(context);
                 },
               ),
               TextButton(
-                child: Text('OK'),
+                child: Text('OK', style: TextStyle(color: Theme.of(context).colorScheme.onSurface),),
                 onPressed: () {
                   pref.remove("RATING_REMIND");
                   pref.setInt("RATING_REMIND", 0);
