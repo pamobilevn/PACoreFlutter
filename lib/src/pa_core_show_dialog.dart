@@ -501,6 +501,7 @@ class PACoreShowDialog {
         child: AlertDialog(
           title: Text('Your Year of Birth', style: (TextStyle(fontWeight: FontWeight.w700))),
           content: PickYearWidget(policyText),
+          backgroundColor: Colors.white,
           actions: <Widget>[
             TextButton(
               child: Text(
