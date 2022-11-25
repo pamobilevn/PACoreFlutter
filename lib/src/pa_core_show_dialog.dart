@@ -499,7 +499,7 @@ class PACoreShowDialog {
           return false;
         },
         child: AlertDialog(
-          title: Text('Your Year of Birth', style: (TextStyle(fontWeight: FontWeight.w700))),
+          title: Text('Your Year of Birth', style: (TextStyle(fontWeight: FontWeight.w700, color: Colors.black))),
           content: PickYearWidget(policyText),
           backgroundColor: Colors.white,
           actions: <Widget>[
@@ -513,7 +513,7 @@ class PACoreShowDialog {
               },
             ),
             TextButton(
-              child: Text('ACCEPT',   style: (TextStyle(fontWeight: FontWeight.w700))),
+              child: Text('ACCEPT',   style: (TextStyle(fontWeight: FontWeight.w700, color: Colors.grey))),
               onPressed: () async {
                 String privacyPolicyAcceptTime =
                     DateTime.now().toString().substring(0, 16).toString();
