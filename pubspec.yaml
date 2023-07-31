@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
   shared_preferences: ^2.0.13
   launch_review: ^3.0.1
-  google_fonts: ^2.3.1
+  google_fonts: 4.0.0
   http: ^0.13.4
 
 dev_dependencies:
